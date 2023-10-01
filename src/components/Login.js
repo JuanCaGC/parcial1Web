@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import {FormattedMessage} from 'react-intl';
+
 
 function Login() {
   const [formValues, setFormValues] = useState({email:"", password:""})
@@ -79,25 +81,25 @@ function Login() {
         <p className='elAromaMagico'>El aroma magico</p>
         <div className='image1'></div>
       </div>
-      <p className='inicioDeSesion'>Inicio de sesion</p>
+      <p className='inicioDeSesion'><FormattedMessage id="login"/></p>
       <div>
         <Form>
           <Form.Group className="mb-6" controlId="formBasicEmail">
-            <Form.Label className="nombreDeUsuario" >Nombre de usuario</Form.Label>
+            <Form.Label className="nombreDeUsuario" ><FormattedMessage id="username"/></Form.Label>
             <Form.Control className='boxNombreUsuario' type="email"  onChange={handleEmailChange} value={formValues.email}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label className="contrasena">Contrasena</Form.Label>
+            <Form.Label className="contrasena"><FormattedMessage id="password"/></Form.Label>
             <Form.Control className='boxcontrasena' type="password"  onChange={handlePasswordChange} value={formValues.password} />
           </Form.Group>
           <Button className='ingresar' variant="primary" onClick={handleLogin}>
-            Ingresar
+            <FormattedMessage id="enter"/>
           </Button>
           <Button className='cancelar' variant="primary" >
-            Cancelar
+            <FormattedMessage id="cancel"/>
           </Button>
-          { (!validationStates.passwordState || !validationStates.emailState) && <Form.Text className="errorDeAutenticacion">Error autenticacion. Revise sus credenciales</Form.Text>}
+          { (!validationStates.passwordState || !validationStates.emailState) && <Form.Text className="errorDeAutenticacion"><FormattedMessage id="authenticationError"/></Form.Text>}
         </Form>
       </div>
       <p className='contactUs'>

@@ -1,0 +1,15 @@
+{
+    "login": "Login",
+    "enter": "Enter",
+    "cancel": "Cancel",
+    "username": "Username",
+    "password": "Password",
+    "authenticationError": "Authentication error. Check your credentials",
+    "name": "Name",
+    "type": "Type",
+    "region": "Region",
+    "notes": "Notes",
+    "grownAt": "Grown at an altitude of",
+    "masl" :"masl"
+  }
+  

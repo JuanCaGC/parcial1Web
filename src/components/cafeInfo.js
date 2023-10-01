@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import './cafeInfo.css';
+import {FormattedMessage, FormattedDate} from 'react-intl';
 
 function CafeInfo({ id }) {
   const [cafe, setCafe] = useState(null);
@@ -10,7 +11,6 @@ function CafeInfo({ id }) {
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        console.log('Data del café:', data);
         setCafe(data);
       })
       .catch((error) => {
@@ -23,12 +23,20 @@ function CafeInfo({ id }) {
         <Card>
           <Card.Header className='nameCafe'>{cafe.nombre}</Card.Header>
           <Card.Body>
-            <Card.Text className='dateCafe'>{cafe.fecha_cultivo}</Card.Text>
+            <Card.Text className='dateCafe'>
+              <FormattedDate
+                value={new Date(cafe.fecha_cultivo)}
+                year='numeric'
+                month='long'
+                day='numeric'
+                weekday='long'
+              />
+            </Card.Text>
             <Card.Img className='imgcafe' src={cafe.imagen} alt={cafe.nombre} />
-            <Card.Text className='notasCafe'>Notas</Card.Text>
+            <Card.Text className='notasCafe'><FormattedMessage id="notes"/></Card.Text>
             <Card.Text className='notasCafe'>{cafe.notas}</Card.Text>
-            <Card.Text className='heightCafe'>Cultivado a una altura de </Card.Text>
-            <Card.Text className='heightCafe'>{cafe.altura} msnm</Card.Text>
+            <Card.Text className='heightCafe'><FormattedMessage id="grownAt"/> </Card.Text>
+            <Card.Text className='heightCafe'>{cafe.altura} <FormattedMessage id="masl"/></Card.Text>
           </Card.Body>
         </Card>
       ) : (

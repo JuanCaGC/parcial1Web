@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import CafeInfo from './cafeInfo';
 import './cafeTable.css';
+import {FormattedMessage} from 'react-intl';
 
 function CafeTable() {
   const [cafes, setCafes] = useState([]);
@@ -37,9 +38,9 @@ function CafeTable() {
         <thead >
           <tr>
             <th>#</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Región</th>
+            <th><FormattedMessage id="name"/></th>
+            <th><FormattedMessage id="type"/></th>
+            <th><FormattedMessage id="region"/></th>
           </tr>
         </thead>
         <tbody>

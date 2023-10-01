@@ -1,0 +1,15 @@
+{
+    "login": "Inicio de sesion",
+    "enter": "Ingresar",
+    "cancel": "Cancelar",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "authenticationError": "Error de autenticación. Verifique sus credenciales",
+    "name": "Nombre",
+    "type": "Tipo",
+    "region": "Región",
+    "notes": "Notas",
+    "grownAt": "Cultivado a una altura de",
+    "masl" :"msnm"
+  }
+  
