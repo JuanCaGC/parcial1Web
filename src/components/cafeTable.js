@@ -1,46 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import CafeInfo from './cafeInfo';
+import './cafeTable.css';
 
 function CafeTable() {
-  const cafes = [
-    { nombre: 'Café 1', tipo: 'Tipo 1', region: 'Región 1' },
-    { nombre: 'Café 2', tipo: 'Tipo 2', region: 'Región 2' },
-    { nombre: 'Café 3', tipo: 'Tipo 3', region: 'Región 3' },
-  ];
+  const [cafes, setCafes] = useState([]);
+  
+  useEffect(() => {
+    const apiUrl = 'http://localhost:3001/cafes';
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCafes(data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener la lista de cafés:', error);
+      });
+  }, []);
+
+
   const [selected, setSelected] = useState(null);
 
-  const handleClick = (cafe) => {
-    setSelected(cafe);
+  const handleClick = (id) => {
+    setSelected(id);
   };
 
   return (
-    <div>
-    <h1>El aroma magico</h1>
-      <div>
-        <img src="http://dummyimage.com/300x200.png/dddddd/000000"/>
-        </div>
-    <Table striped bordered hover>
-        <thead>
+    <div className= 'CafeTable'>
+
+      <div className='frame_arriba'>
+        <p className='elAromaMagico'>El aroma magico</p>
+        <div className='image1'></div>
+      </div>
+    <Table striped bordered hover className='table1'>
+        <thead >
           <tr>
-          <th>#</th>
+            <th>#</th>
             <th>Nombre</th>
             <th>Tipo</th>
             <th>Región</th>
           </tr>
         </thead>
         <tbody>
-          {cafes.map((cafe, index) => (
-            <tr key={index} onClick={() => handleClick(cafe)}>
-              <td>{index}</td>
-              <td>{cafe.nombre}</td>
-              <td>{cafe.tipo}</td>
-              <td>{cafe.region}</td>
+          {cafes.map((cafe) => (
+            <tr  key={cafe.id} onClick={() => handleClick(cafe.id)}>
+              <td className='id'>{cafe.id}</td>
+              <td className='textobody'>{cafe.nombre}</td>
+              <td className='textobody'>{cafe.tipo}</td>
+              <td className='textobody'>{cafe.region}</td>
             </tr>
           ))}
         </tbody>
       </Table>
-      {selected && <CafeInfo cafe={selected} />}
+      {selected &&<div className='cafeInfoBox'> <CafeInfo id={selected} /></div>}
       </div>
   );
 }

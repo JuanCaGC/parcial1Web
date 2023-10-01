@@ -26,15 +26,41 @@ function Login() {
     setFormValues({ ...formValues, password: newPassword });
   };;
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const isEmailValidated = isEmailValid(formValues.email);
     const isPasswordValidated = isPasswordValid(formValues.password); 
-    if(isEmailValidated && isPasswordValidated)
-    {
-      navigate('/cafeTable');
+
+    if (isEmailValidated && isPasswordValidated) {
+      try {
+        const response = await fetch('http://localhost:3001/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            login: formValues.email, 
+            password: formValues.password,
+          }),
+        });
+
+        if (response.status === 200) {
+          navigate('/cafeTable');
+        } else if (response.status === 401) {
+          console.error('Credenciales incorrectas');
+          setValidationStates({ ...validationStates, emailState: false });
+          setValidationStates({ ...validationStates, passwordState: false });
+        } else {
+          console.error('Error desconocido en la autenticación');
+          setValidationStates({ ...validationStates, emailState: false });
+          setValidationStates({ ...validationStates, passwordState: false });
+        }
+      } catch (error) {
+        console.error('Error al realizar la solicitud POST', error);
+      }
+    } else {
+      setValidationStates({ ...validationStates, emailState: false });
+      setValidationStates({ ...validationStates, passwordState: false });
     }
-    setValidationStates({ ...validationStates, emailState: false });
-    setValidationStates({ ...validationStates, passwordState: false });
   };
 
 
@@ -43,36 +69,40 @@ function Login() {
   };
 
   const isPasswordValid = (password) => {
-    return password.length >= 6;
+    return true;
   };
  
   return (
     <div className="login">
-      <h1>El aroma magico</h1>
+      <div className='cajaLogin'></div>
+      <div className='frame_arriba'>
+        <p className='elAromaMagico'>El aroma magico</p>
+        <div className='image1'></div>
+      </div>
+      <p className='inicioDeSesion'>Inicio de sesion</p>
       <div>
-        <img src="http://dummyimage.com/300x200.png/dddddd/000000"/>
-        </div>
-        <p>Inicio de sesion</p>
-        <div>
         <Form>
           <Form.Group className="mb-6" controlId="formBasicEmail">
-            <Form.Label>Nombre de usuario</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" onChange={handleEmailChange} value={formValues.email}/>
+            <Form.Label className="nombreDeUsuario" >Nombre de usuario</Form.Label>
+            <Form.Control className='boxNombreUsuario' type="email"  onChange={handleEmailChange} value={formValues.email}/>
           </Form.Group>
- 
+
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Contrasena</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} value={formValues.password} />
+            <Form.Label className="contrasena">Contrasena</Form.Label>
+            <Form.Control className='boxcontrasena' type="password"  onChange={handlePasswordChange} value={formValues.password} />
           </Form.Group>
-          <Button variant="primary" onClick={handleLogin}>
+          <Button className='ingresar' variant="primary" onClick={handleLogin}>
             Ingresar
           </Button>
-          <Button variant="primary" >
+          <Button className='cancelar' variant="primary" >
             Cancelar
           </Button>
-          { (!validationStates.passwordState || !validationStates.emailState) && <Form.Text className="text-muted">Error autenticacion. Revise sus credenciales</Form.Text>}
+          { (!validationStates.passwordState || !validationStates.emailState) && <Form.Text className="errorDeAutenticacion">Error autenticacion. Revise sus credenciales</Form.Text>}
         </Form>
-        </div>
+      </div>
+      <p className='contactUs'>
+        Contact us: +57 3102105253 - info@elaromamagico.com - @elaromamagico
+      </p>
     </div>
   );
 }
